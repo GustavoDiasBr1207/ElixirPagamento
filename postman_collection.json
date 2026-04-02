@@ -1,0 +1,162 @@
+{
+  "info": {
+    "name": "PhoenixPay API",
+    "description": "Sistema de Pagamentos em Tempo Real - API REST",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:4000/api/v1/register",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"name\": \"Seu Nome\",\n  \"password\": \"senha123456\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:4000/api/v1/login",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "raw": "{\n  \"email\": \"demo@phoenixpay.com\",\n  \"password\": \"senha123456\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "List Payments",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:4000/api/v1/payments",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create Payment",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:4000/api/v1/payments",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "raw": "{\n  \"amount\": \"150.50\",\n  \"description\": \"Compra de produto\",\n  \"payment_method\": \"pix\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Payment Details",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:4000/api/v1/payments/{{payment_id}}",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Confirm Payment",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:4000/api/v1/payments/{{payment_id}}/confirm",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Payment Status",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:4000/api/v1/payments/{{payment_id}}/status",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "List Webhooks",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:4000/api/v1/webhooks",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Create Webhook",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:4000/api/v1/webhooks",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "raw": "{\n  \"url\": \"https://webhook.site/unique-id\",\n  \"events\": [\"payment.confirmed\", \"payment.failed\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "Webhook Logs",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:4000/api/v1/webhooks/{{webhook_id}}/logs",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stats",
+      "item": [
+        {
+          "name": "Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:4000/api/v1/stats",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "User Stats",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:4000/api/v1/stats/user",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": "seu_token_jwt_aqui"
+    },
+    {
+      "key": "payment_id",
+      "value": "uuid_do_pagamento"
+    },
+    {
+      "key": "webhook_id",
+      "value": "uuid_do_webhook"
+    }
+  ]
+}
