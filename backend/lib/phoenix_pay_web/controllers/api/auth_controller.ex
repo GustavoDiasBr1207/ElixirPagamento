@@ -46,13 +46,12 @@ defmodule PhoenixPayWeb.API.AuthController do
   end
 
   defp generate_jwt_token(user_id) do
-    payload = %{
-      "sub" => user_id,
-      "iat" => DateTime.utc_now() |> DateTime.to_unix(),
-      "exp" => DateTime.utc_now() |> DateTime.add(86400) |> DateTime.to_unix()
-    }
-
-    JWT.encode(payload, System.get_env("JWT_SECRET", "default_secret"))
+    secret = System.get_env("JWT_SECRET", "default_secret")
+    
+    case Joken.encode(%{"sub" => user_id}, secret) do
+      {:ok, token} -> token
+      {:error, _} -> nil
+    end
   end
 
   defp format_errors(changeset) do

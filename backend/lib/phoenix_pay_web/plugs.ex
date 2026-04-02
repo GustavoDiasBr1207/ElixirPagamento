@@ -52,9 +52,11 @@ defmodule PhoenixPayWeb.Plugs.APIAuth do
   end
 
   defp verify_jwt_token(token) do
-    case JWT.decode(token, System.get_env("JWT_SECRET", "default_secret")) do
-      {:ok, payload} -> {:ok, payload["sub"]}
-      _ -> {:error, :invalid_token}
+    secret = System.get_env("JWT_SECRET", "default_secret")
+    
+    case Joken.verify_and_validate(token, Joken.default_claims(), secret) do
+      {:ok, claims} -> {:ok, claims["sub"]}
+      {:error, _} -> {:error, :invalid_token}
     end
   end
 end

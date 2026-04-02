@@ -43,11 +43,12 @@ defmodule PhoenixPay.MixProject do
       {:httpoison, "~> 2.0"},
       {:uuid, "~> 1.1"},
       {:bcrypt_elixir, "~> 3.0"},
-      {:jwt, "~> 2.0"},
+      {:joken, "~> 2.4"},
       {:cors_plug, "~> 3.0"},
       {:ex_doc, "~> 0.30", only: :dev},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:open_api_spex, "~> 3.18"}
     ]
   end
 

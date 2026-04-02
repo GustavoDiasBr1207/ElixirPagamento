@@ -78,6 +78,14 @@ defmodule PhoenixPayWeb.Router do
     post "/:token/events", WebhookController, :receive_event
   end
 
+  # Swagger UI
+  scope "/" do
+    pipe_through :browser
+    
+    get "/api/openapi.json", OpenApiController, :spec
+    get "/api/docs", OpenApiController, :swagger_ui
+  end
+
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
 

@@ -1,8 +1,30 @@
 version: '3.8'
 
 services:
+  app:
+    build: .
+    container_name: phoenix_pay_app
+    ports:
+      - "4000:4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ecto://postgres:postgres@postgres:5432/phoenix_pay_repo
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:-default_secret_change_in_production}
+      PORT: 4000
+    volumes:
+      - .:/app
+      - /app/_build
+      - /app/deps
+    command: mix phx.server
+
   postgres:
     image: postgres:15-alpine
+    container_name: phoenix_pay_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -19,6 +41,7 @@ services:
 
   redis:
     image: redis:7-alpine
+    container_name: phoenix_pay_redis
     ports:
       - "6379:6379"
     volumes:
